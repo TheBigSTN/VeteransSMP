@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.veteran.veteransmp.compat.lightmans",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "BankAPIImplMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

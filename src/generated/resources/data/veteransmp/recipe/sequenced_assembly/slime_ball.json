@@ -1,0 +1,68 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "minecraft:slime_ball"
+  },
+  "loops": 1,
+  "results": [
+    {
+      "chance": 8.0,
+      "id": "minecraft:slime_ball"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:filling",
+      "ingredients": [
+        {
+          "item": "veteransmp:unfinished_slimeball"
+        },
+        {
+          "type": "fluid_stack",
+          "amount": 100,
+          "fluid": "minecraft:water"
+        }
+      ],
+      "results": [
+        {
+          "id": "veteransmp:unfinished_slimeball"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "veteransmp:unfinished_slimeball"
+        },
+        {
+          "tag": "minecraft:leaves"
+        }
+      ],
+      "results": [
+        {
+          "id": "veteransmp:unfinished_slimeball"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "veteransmp:unfinished_slimeball"
+        },
+        {
+          "item": "create:wheat_flour"
+        }
+      ],
+      "results": [
+        {
+          "id": "veteransmp:unfinished_slimeball"
+        }
+      ]
+    }
+  ],
+  "transitional_item": {
+    "id": "veteransmp:unfinished_slimeball"
+  }
+}

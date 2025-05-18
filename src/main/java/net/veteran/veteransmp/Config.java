@@ -14,50 +14,44 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 
 // An example config class. This is not required, but it's a good idea to have one to keep your config organized.
 // Demonstrates how to use Neo's config APIs
-@EventBusSubscriber(modid = VeteranSMP.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class Config
 {
-    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+//    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+//
+//    private static final ModConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
+//            .comment("Whether to log the dirt block on common setup")
+//            .define("logDirtBlock", true);
+//
+//    private static final ModConfigSpec.IntValue MAGIC_NUMBER = BUILDER
+//            .comment("A magic number")
+//            .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
+//
+//    public static final ModConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
+//            .comment("What you want the introduction message to be for the magic number")
+//            .define("magicNumberIntroduction", "The magic number is... ");
 
-    private static final ModConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
-            .comment("Whether to log the dirt block on common setup")
-            .define("logDirtBlock", true);
+    public static class Server {
+        private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+        public static final ModConfigSpec SPEC;
 
-    private static final ModConfigSpec.IntValue MAGIC_NUMBER = BUILDER
-            .comment("A magic number")
-            .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
+        public static final ModConfigSpec.BooleanValue OVERRIDE_LC;
+        public static final ModConfigSpec.LongValue OFFLINE_LIMIT;
 
-    public static final ModConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
-            .comment("What you want the introduction message to be for the magic number")
-            .define("magicNumberIntroduction", "The magic number is... ");
+        static {
+            BUILDER.push("Lightman's Currency");
+            OVERRIDE_LC = BUILDER
+                    .comment("Where if it should override the default Lightman's Currency Interest logic")
+                    .define("lightmans_override", true);
 
-    // a list of strings that are treated as resource locations for items
-    private static final ModConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER
-            .comment("A list of items to log on common setup.")
-            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), Config::validateItemName);
+            OFFLINE_LIMIT = BUILDER
+                    .comment("The amount of time the user can be offline before it does not receive interest,",
+                            "the value should be in milliseconds. Where you can use 1000 for a sec and 1000 * 60 for a min",
+                            "Default value is a week",
+                            "On team accounts if any of the team members meets the logOn interval interest is applied")
+                    .defineInRange("offline_limit", 1000*60*60*24*7, 0, ((long) Integer.MAX_VALUE));
+            BUILDER.pop();
 
-    static final ModConfigSpec SPEC = BUILDER.build();
-
-    public static boolean logDirtBlock;
-    public static int magicNumber;
-    public static String magicNumberIntroduction;
-    public static Set<Item> items;
-
-    private static boolean validateItemName(final Object obj)
-    {
-        return obj instanceof String itemName && BuiltInRegistries.ITEM.containsKey(ResourceLocation.parse(itemName));
-    }
-
-    @SubscribeEvent
-    static void onLoad(final ModConfigEvent event)
-    {
-        logDirtBlock = LOG_DIRT_BLOCK.get();
-        magicNumber = MAGIC_NUMBER.get();
-        magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
-
-        // convert the list of strings into a set of items
-        items = ITEM_STRINGS.get().stream()
-                .map(itemName -> BuiltInRegistries.ITEM.get(ResourceLocation.parse(itemName)))
-                .collect(Collectors.toSet());
+            SPEC = BUILDER.build();
+        }
     }
 }

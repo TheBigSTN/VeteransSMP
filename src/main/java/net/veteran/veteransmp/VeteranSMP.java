@@ -1,21 +1,42 @@
 package net.veteran.veteransmp;
 
+import com.simibubi.create.AllItems;
+import com.simibubi.create.content.processing.sequenced.SequencedAssemblyItem;
+import com.simibubi.create.foundation.data.CreateRegistrate;
+import io.github.lightman314.lightmanscurrency.LCConfig;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.veteran.veteransmp.commands.tpa.TpaCommand;
+import net.veteran.veteransmp.compat.PlayerTracker;
+import net.veteran.veteransmp.datagen.DataGenerator;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotResult;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(VeteranSMP.MOD_ID)
@@ -26,43 +47,59 @@ public class VeteranSMP
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    private static final CreateRegistrate REGISTRATE = CreateRegistrate.create(MOD_ID)
+            .defaultCreativeTab((ResourceKey<CreativeModeTab>) null);
+
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public VeteranSMP(IEventBus modEventBus, ModContainer modContainer)
     {
+        REGISTRATE.registerEventListeners(modEventBus);
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
+        ModItems.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(PlayerTracker.class);
+
+
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
+        modEventBus.addListener(EventPriority.LOW, DataGenerator::gatherData);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        modContainer.registerConfig(ModConfig.Type.SERVER, Config.Server.SPEC);
+    }
+
+    public static ResourceLocation asResource(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
+
+    @SubscribeEvent
+    public void onCommandLoading(RegisterCommandsEvent event) {
+        TpaCommand.register(event.getDispatcher());
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        CuriosApi.registerCurioPredicate(ResourceLocation.fromNamespaceAndPath(VeteranSMP.MOD_ID, "create_backtank"), (slotResult) -> {
+            ItemStack stack = slotResult.stack();
+            ResourceLocation itemIdentifier = ResourceLocation.fromNamespaceAndPath("create", "copper_backtank");
+            Item targetItem = BuiltInRegistries.ITEM.get(itemIdentifier);
+
+            return stack.is(targetItem);
+        });
     }
+
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-    }
-
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event) {
-
-        }
+    public static CreateRegistrate registrate() {
+        return REGISTRATE;
     }
 }
