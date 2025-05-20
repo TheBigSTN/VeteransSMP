@@ -12,6 +12,15 @@ import net.veteran.veteransmp.VeteranSMP;
 @EventBusSubscriber(modid = VeteranSMP.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
 public class PlayerTracker {
     private static PlayerLoginData INSTANCE;
+    private static long lastInterestTime;
+
+    public static long timeSinceLastInterest() {
+        return System.currentTimeMillis() - lastInterestTime;
+    }
+
+    public static void  setLastInterestTime() {
+        lastInterestTime = System.currentTimeMillis();
+    }
 
     public static PlayerLoginData get() {
         if (INSTANCE == null) {

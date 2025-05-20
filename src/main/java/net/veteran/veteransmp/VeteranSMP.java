@@ -1,23 +1,14 @@
 package net.veteran.veteransmp;
 
-import com.simibubi.create.AllItems;
-import com.simibubi.create.content.processing.sequenced.SequencedAssemblyItem;
 import com.simibubi.create.foundation.data.CreateRegistrate;
-import io.github.lightman314.lightmanscurrency.LCConfig;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import net.veteran.veteransmp.commands.tpa.TpaCommand;
 import net.veteran.veteransmp.compat.PlayerTracker;
 import net.veteran.veteransmp.datagen.DataGenerator;
@@ -28,15 +19,12 @@ import com.mojang.logging.LogUtils;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.SlotResult;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(VeteranSMP.MOD_ID)
@@ -72,7 +60,7 @@ public class VeteranSMP
         modEventBus.addListener(EventPriority.LOW, DataGenerator::gatherData);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        modContainer.registerConfig(ModConfig.Type.SERVER, Config.Server.SPEC);
+        modContainer.registerConfig(ModConfig.Type.SERVER, VConfig.Server.SPEC);
     }
 
     public static ResourceLocation asResource(String path) {

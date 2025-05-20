@@ -1,5 +1,5 @@
 {
-  "required": true,
+  "required": false,
   "minVersion": "0.8",
   "package": "net.veteran.veteransmp.compat.lightmans",
   "compatibilityLevel": "JAVA_17",

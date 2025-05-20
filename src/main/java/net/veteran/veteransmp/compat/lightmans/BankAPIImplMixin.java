@@ -12,8 +12,8 @@ import io.github.lightman314.lightmanscurrency.api.teams.ITeam;
 import io.github.lightman314.lightmanscurrency.api.teams.TeamAPI;
 import io.github.lightman314.lightmanscurrency.common.data.types.BankDataCache;
 import io.github.lightman314.lightmanscurrency.common.impl.BankAPIImpl;
-import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.veteran.veteransmp.VConfig;
 import net.veteran.veteransmp.compat.PlayerTracker;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -28,68 +28,67 @@ public class BankAPIImplMixin {
 
     @Inject(method = "ServerTick", at = @At("HEAD"), cancellable = true)
     private void onServerTick(ServerTickEvent.Pre event, CallbackInfo ci) {
-        double interestRate = LCConfig.SERVER.bankAccountInterestRate.get();
-        if (interestRate <= 0.0F) {
-            return;
-        }
+        if (VConfig.Server.OVERRIDE_LC.get()) {
+            double interestRate = LCConfig.SERVER.bankAccountInterestRate.get();
+            if (interestRate <= 0.0F) {
+                return;
+            }
 
-        BankDataCache data = BankDataCache.TYPE.get(false);
-        assert data != null;
-        int interest = data.interestTick();
-        if (interest < LCConfig.SERVER.bankAccountInterestTime.get()) {
-            return;
-        }
+            long interest = PlayerTracker.timeSinceLastInterest();
+            if (interest < LCConfig.SERVER.bankAccountInterestTime.get()) {
+                return;
+            }
 
-        long referenceLogout = 1000L * 60L * 60L * 24L;
+            PlayerTracker.setLastInterestTime();
+            LightmansCurrency.LogDebug("Applying interest to ACTIVE bank accounts!");
 
-        data.resetInterestTick();
-        LightmansCurrency.LogDebug("Applying interest to ACTIVE bank accounts!");
+            BankDataCache data = BankDataCache.TYPE.get(false);
+            assert data != null;
 
-        List<MoneyValue> limits = LCConfig.SERVER.bankAccountInterestLimits.get();
-        boolean forceInterest = LCConfig.SERVER.bankAccountForceInterest.get();
-        boolean notifyPlayers = LCConfig.SERVER.bankAccountInterestNotification.get();
+            List<MoneyValue> limits = LCConfig.SERVER.bankAccountInterestLimits.get();
+            boolean forceInterest = LCConfig.SERVER.bankAccountForceInterest.get();
+            boolean notifyPlayers = LCConfig.SERVER.bankAccountInterestNotification.get();
 
-        for (BankReference reference : ((BankAPIImpl)(Object)this).GetAllBankReferences(false)) {
-            IBankAccount account = reference.get();
-            if (account != null) {
-                if (reference instanceof PlayerBankReference playerRef) {
-                    PlayerReference player = playerRef.getPlayer();
-                    assert player != null;
-                    UUID playerUUID = player.id;
-                    long lastLogin = PlayerTracker.get().getPlayer(playerUUID);
-                    long daysSince = lastLogin / referenceLogout;
-                    if (daysSince <= 7) {
-                        account.applyInterest(interestRate, limits, forceInterest, notifyPlayers);
-                        LightmansCurrency.LogDebug("Applying interest to " + account.getName().getString());
-                    } else {
-                        LightmansCurrency.LogDebug("Skipping interest for " + account.getName().getString() + " - inactive.");
-                    }
-                } else if (reference instanceof TeamBankReference teamRef) {
-                    long teamID = teamRef.teamID;
-                    ITeam team = TeamAPI.API.GetTeam(false, teamID);
-                    assert team != null;
-
-
-                    boolean interestApplied = false;
-                    for (PlayerReference playerReference : team.getAllMembers()) {
-                        UUID playerUUID = playerReference.id;
+            for (BankReference reference : ((BankAPIImpl)(Object)this).GetAllBankReferences(false)) {
+                IBankAccount account = reference.get();
+                if (account != null) {
+                    if (reference instanceof PlayerBankReference playerRef) {
+                        PlayerReference player = playerRef.getPlayer();
+                        assert player != null;
+                        UUID playerUUID = player.id;
                         long lastLogin = PlayerTracker.get().getPlayer(playerUUID);
-                        long daysSince = lastLogin / referenceLogout;
+                        long daysSince = lastLogin / VConfig.Server.OFFLINE_LIMIT.getAsLong();
                         if (daysSince <= 7) {
-                            LightmansCurrency.LogDebug("Applying interest to " + account.getName().getString());
                             account.applyInterest(interestRate, limits, forceInterest, notifyPlayers);
-                            interestApplied = true;
-                            break;
+                            LightmansCurrency.LogDebug("Applying interest to " + account.getName().getString());
+                        } else {
+                            LightmansCurrency.LogDebug("Skipping interest for " + account.getName().getString() + " - inactive.");
                         }
-                    }
+                    } else if (reference instanceof TeamBankReference teamRef) {
+                        long teamID = teamRef.teamID;
+                        ITeam team = TeamAPI.API.GetTeam(false, teamID);
+                        assert team != null;
 
-                    if (!interestApplied) {
-                        LightmansCurrency.LogDebug("Skipping interest for " + account.getName().getString() + " - no active members in last 7 days.");
+
+                        boolean interestApplied = false;
+                        for (PlayerReference playerReference : team.getAllMembers()) {
+                            UUID playerUUID = playerReference.id;
+                            long lastLogin = PlayerTracker.get().getPlayer(playerUUID);
+                            long daysSince = lastLogin / VConfig.Server.OFFLINE_LIMIT.getAsLong();
+                            if (daysSince <= 7) {
+                                LightmansCurrency.LogDebug("Applying interest to " + account.getName().getString());
+                                account.applyInterest(interestRate, limits, forceInterest, notifyPlayers);
+                                interestApplied = true;
+                                break;
+                            }
+                        }
+                        if (!interestApplied) {
+                            LightmansCurrency.LogDebug("Skipping interest for " + account.getName().getString() + " - no active members in last 7 days.");
+                        }
                     }
                 }
             }
+            ci.cancel();
         }
-
-        ci.cancel();
     }
 }
