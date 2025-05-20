@@ -76,9 +76,12 @@ public class VeteranSMP
         CuriosApi.registerCurioPredicate(ResourceLocation.fromNamespaceAndPath(VeteranSMP.MOD_ID, "create_backtank"), (slotResult) -> {
             ItemStack stack = slotResult.stack();
             ResourceLocation itemIdentifier = ResourceLocation.fromNamespaceAndPath("create", "copper_backtank");
+            ResourceLocation itemIdentifier2 = ResourceLocation.fromNamespaceAndPath("create_sa", "brass_jetpack_chestplate");
             Item targetItem = BuiltInRegistries.ITEM.get(itemIdentifier);
-
-            return stack.is(targetItem);
+            Item targetItem2 = BuiltInRegistries.ITEM.get(itemIdentifier2);
+            if (stack.is(targetItem))
+                return true;
+            return stack.is(targetItem2);
         });
     }
 

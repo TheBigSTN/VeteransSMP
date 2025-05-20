@@ -20,7 +20,8 @@ public class CuriosDatagenProvider extends CuriosDataProvider {
     @Override
     public void generate(HolderLookup.Provider registries, ExistingFileHelper fileHelper) {
         this.createSlot("body")
-                .dropRule(ICurio.DropRule.ALWAYS_KEEP)
+                .dropRule(ICurio.DropRule.ALWAYS_DROP)
+                .size(4)
                 .addValidator(VeteranSMP.asResource("create_backtank"));
         this.createSlot("head")
                 .dropRule(ICurio.DropRule.ALWAYS_KEEP)

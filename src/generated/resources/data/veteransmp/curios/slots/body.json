@@ -1,5 +1,6 @@
 {
-  "drop_rule": "ALWAYS_KEEP",
+  "drop_rule": "ALWAYS_DROP",
+  "size": 4,
   "validators": [
     "veteransmp:create_backtank"
   ]
