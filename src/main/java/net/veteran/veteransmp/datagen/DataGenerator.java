@@ -10,7 +10,9 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.veteran.veteransmp.VeteranSMP;
+import net.veteran.veteransmp.datagen.create.MixingRecipeGen;
 import net.veteran.veteransmp.datagen.create.SequencedAssemblyGen;
+import net.veteran.veteransmp.datagen.create.WashingRecipeGen;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -41,6 +43,16 @@ public class DataGenerator {
         generator.addProvider(
                 event.includeServer(),
                 new SequencedAssemblyGen(packOutput, lookupProvider)
+        );
+
+        generator.addProvider(
+                event.includeServer(),
+                new MixingRecipeGen(packOutput, lookupProvider)
+        );
+
+        generator.addProvider(
+                event.includeServer(),
+                new WashingRecipeGen(packOutput, lookupProvider)
         );
     }
 }

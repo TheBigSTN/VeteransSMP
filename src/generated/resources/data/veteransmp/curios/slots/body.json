@@ -1,7 +1,7 @@
 {
   "drop_rule": "ALWAYS_DROP",
-  "size": 4,
+  "size": 1,
   "validators": [
-    "veteransmp:create_backtank"
+    "veteransmp:body_validator"
   ]
 }

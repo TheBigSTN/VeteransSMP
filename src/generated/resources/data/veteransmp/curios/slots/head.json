@@ -1,6 +1,0 @@
-{
-  "drop_rule": "ALWAYS_KEEP",
-  "validators": [
-    "veteransmp:head_goggles"
-  ]
-}

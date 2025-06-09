@@ -7,7 +7,7 @@ import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 
 public class ModItems {
-    private static final CreateRegistrate REGISTRATE = VeteranSMP.registrate();
+    private static final CreateRegistrate REGISTRAR = VeteranSMP.registrate();
 
     public static final ItemEntry<SequencedAssemblyItem>
             UNFINISHED_SLIMEBALL = sequencedIngredient("unfinished_slimeball");
@@ -16,15 +16,15 @@ public class ModItems {
     // Shortcuts
 
     private static ItemEntry<Item> ingredient(String name) {
-        return REGISTRATE.item(name, Item::new)
+        return REGISTRAR.item(name, Item::new)
                 .register();
     }
 
     private static ItemEntry<SequencedAssemblyItem> sequencedIngredient(String name) {
-        return REGISTRATE.item(name, SequencedAssemblyItem::new)
+        return REGISTRAR.item(name, SequencedAssemblyItem::new)
                 .register();
     }
-    public static void register(IEventBus eventBus) {
+    public static void register() {
         //Load the class
     }
 }

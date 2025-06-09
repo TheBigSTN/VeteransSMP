@@ -15,6 +15,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerPlayer;
+import net.veteran.veteransmp.VConfig;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -46,6 +47,12 @@ public class TpaCommand {
     private static int requestTpa(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer host = context.getSource().getPlayerOrException();
         ServerPlayer guest = EntityArgument.getPlayer(context, "target");
+
+        if (!VConfig.Server.TPA_COMMAND.get()) {
+            host.sendSystemMessage(Component.literal("The tpa command is disabled")
+                    .withStyle(ChatFormatting.RED));
+            return 0;
+        }
 
         if (guest.equals(host)) {
             host.sendSystemMessage(Component.literal("You can't teleport to yourself")

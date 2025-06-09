@@ -1,4 +1,4 @@
-package net.veteran.veteransmp.compat;
+package net.veteran.veteransmp.persistent;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;

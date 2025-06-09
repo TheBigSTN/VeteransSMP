@@ -1,10 +1,18 @@
 {
   "required": false,
   "minVersion": "0.8",
-  "package": "net.veteran.veteransmp.compat.lightmans",
+  "package": "net.veteran.veteransmp.mixin",
+  "plugin": "net.veteran.veteransmp.mixin.VeteranMixinPlugin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "BankAPIImplMixin"
+    "Lightman.BankAPIImplMixin",
+    "CraftsAndAdditions.JetpackOnKeyPressMixin",
+    "CraftsAndAdditions.JetpackOnKeyReleaseMixin",
+    "CraftsAndAdditions.FillingTankMixin",
+    "CraftsAndAdditions.FuelingTankMixin",
+    "CraftsAndAdditions.CopperJetpackMixin",
+    "CraftsAndAdditions.AndesiteJetpackMixin",
+    "CraftsAndAdditions.BrassJetpackMixin"
   ],
   "injectors": {
     "defaultRequire": 1

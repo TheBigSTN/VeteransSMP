@@ -1,4 +1,4 @@
-package net.veteran.veteransmp.compat.lightmans;
+package net.veteran.veteransmp.mixin.Lightman;
 
 import io.github.lightman314.lightmanscurrency.LCConfig;
 import io.github.lightman314.lightmanscurrency.LightmansCurrency;
@@ -14,7 +14,7 @@ import io.github.lightman314.lightmanscurrency.common.data.types.BankDataCache;
 import io.github.lightman314.lightmanscurrency.common.impl.BankAPIImpl;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.veteran.veteransmp.VConfig;
-import net.veteran.veteransmp.compat.PlayerTracker;
+import net.veteran.veteransmp.persistent.PlayerTracker;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

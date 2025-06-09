@@ -1,4 +1,5 @@
-You can now place your ketpack // 1.21.1	2025-05-20T11:34:28.3440577	Curios for veteransmp
-9f78ad41e4bbcd767e3327d660067f217af2cce8 data/veteransmp/curios/entities/main.json
-a62f15a272073bf1263ddfda01e92c26757d8b43 data/veteransmp/curios/slots/body.json
-fe0ce7f70e0908db84c589b5713a59a7c06e4eb9 data/veteransmp/curios/slots/head.json
+// 1.21.1	2025-06-05T09:58:00.5056088	Curios for veteransmp
+c30992a8f51621a45437d44f47068c6b77373e55 data/veteransmp/curios/entities/main.json
+849bd7162783ce6166b67cb1bc8649762554b1b1 data/veteransmp/curios/slots/body.json
+6a3de1ad685b04f4d2b7d2e87836cdc63d97c131 data/veteransmp/curios/slots/jetpack.json
+f264bb108d5d136411f04b06f248ba3332535967 data/veteransmp/curios/slots/tank.json

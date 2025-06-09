@@ -8,6 +8,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipeBuilder;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluids;
@@ -24,7 +25,7 @@ public class SequencedAssemblyGen extends CreateRecipeProvider {
 
     SLIME_BALL = create("slime_ball", b->b.require(Items.SLIME_BALL)
             .transitionTo(ModItems.UNFINISHED_SLIMEBALL.get())
-            .addOutput(Items.SLIME_BALL, 8)
+            .addOutput(new ItemStack(Items.SLIME_BALL, 8), 1)
             .loops(1)
             .addStep(FillingRecipe::new,
                     rb -> rb.require(Fluids.WATER, 100))
@@ -47,6 +48,6 @@ public class SequencedAssemblyGen extends CreateRecipeProvider {
 
     @Override
     public @NotNull String getName() {
-        return "Create's Sequenced Assembly Recipes";
+        return "Veteran's SMP Sequenced Recipes";
     }
 }

@@ -1,4 +1,4 @@
-package net.veteran.veteransmp.compat;
+package net.veteran.veteransmp.persistent;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -15,11 +15,11 @@ public class PlayerTracker {
     private static long lastInterestTime;
 
     public static long timeSinceLastInterest() {
-        return System.currentTimeMillis() - lastInterestTime;
+        return System.currentTimeMillis() / 50L - lastInterestTime;
     }
 
     public static void  setLastInterestTime() {
-        lastInterestTime = System.currentTimeMillis();
+        lastInterestTime = System.currentTimeMillis() / 50L;
     }
 
     public static PlayerLoginData get() {

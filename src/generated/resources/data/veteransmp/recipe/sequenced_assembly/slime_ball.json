@@ -6,7 +6,7 @@
   "loops": 1,
   "results": [
     {
-      "chance": 8.0,
+      "count": 8,
       "id": "minecraft:slime_ball"
     }
   ],

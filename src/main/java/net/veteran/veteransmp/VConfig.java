@@ -26,6 +26,7 @@ public class VConfig
 
         public static final ModConfigSpec.BooleanValue OVERRIDE_LC;
         public static final ModConfigSpec.LongValue OFFLINE_LIMIT;
+        public static final ModConfigSpec.BooleanValue TPA_COMMAND;
 
         static {
             BUILDER.push("Lightman's Currency");
@@ -35,7 +36,7 @@ public class VConfig
 
             OFFLINE_LIMIT = BUILDER
                     .comment("The amount of time the user can be offline before it does not receive interest,",
-                            "the value should be in milliseconds.",
+                            "the value should be in minecraft tics.",
                             "Default value is a week",
                             "On team accounts if any of the team members meets the logOn interval interest is applied",
                             "Helpful Notes:",
@@ -46,8 +47,14 @@ public class VConfig
                             "1 week = 12096000 ticks",
                             "30 days = 51840000 ticks",
                             "365 days = 630720000 ticks")
-                    .defineInRange("offline_limit", 1000*60*60*24*7, 0L, Integer.MAX_VALUE);
+                    .defineInRange("offline_limit", 20 * 60 * 60 * 24 * 7, 0L, Integer.MAX_VALUE);
             BUILDER.pop();
+
+            BUILDER.push("Command Config");
+
+            TPA_COMMAND = BUILDER
+                    .comment("Wether is the command /tpa enabled")
+                    .define("tpa_enabled", true);
 
             SPEC = BUILDER.build();
         }

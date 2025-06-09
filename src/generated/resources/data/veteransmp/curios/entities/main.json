@@ -3,7 +3,8 @@
     "minecraft:player"
   ],
   "slots": [
-    "head",
-    "body"
+    "body",
+    "tank",
+    "jetpack"
   ]
 }
