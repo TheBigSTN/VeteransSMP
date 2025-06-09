@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "create:dough"
+    }
+  },
+  "pattern": [
+    "B"
+  ],
+  "result": {
+    "count": 1,
+    "id": "farmersdelight:wheat_dough"
+  }
+}

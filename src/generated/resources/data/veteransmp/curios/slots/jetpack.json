@@ -1,0 +1,7 @@
+{
+  "drop_rule": "ALWAYS_DROP",
+  "size": 1,
+  "validators": [
+    "veteransmp:jetpack_validator"
+  ]
+}

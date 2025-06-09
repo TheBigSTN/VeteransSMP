@@ -1,0 +1,7 @@
+{
+  "drop_rule": "ALWAYS_DROP",
+  "size": 4,
+  "validators": [
+    "veteransmp:tank_validator"
+  ]
+}
