@@ -13,7 +13,7 @@ import io.github.lightman314.lightmanscurrency.api.teams.TeamAPI;
 import io.github.lightman314.lightmanscurrency.common.data.types.BankDataCache;
 import io.github.lightman314.lightmanscurrency.common.impl.BankAPIImpl;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
-import net.veteran.veteransmp.VConfig;
+import net.veteran.veteransmp.VeteranSmpConfig;
 import net.veteran.veteransmp.persistent.PlayerTracker;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -28,7 +28,7 @@ public class BankAPIImplMixin {
 
     @Inject(method = "ServerTick", at = @At("HEAD"), cancellable = true)
     private void onServerTick(ServerTickEvent.Pre event, CallbackInfo ci) {
-        if (VConfig.Server.OVERRIDE_LC.get()) {
+        if (VeteranSmpConfig.Server.OVERRIDE_LC.get()) {
             double interestRate = LCConfig.SERVER.bankAccountInterestRate.get();
             if (interestRate <= 0.0F) {
                 return;
@@ -57,7 +57,7 @@ public class BankAPIImplMixin {
                         assert player != null;
                         UUID playerUUID = player.id;
                         long lastLogin = PlayerTracker.get().getPlayer(playerUUID);
-                        long daysSince = lastLogin / VConfig.Server.OFFLINE_LIMIT.getAsLong();
+                        long daysSince = lastLogin / VeteranSmpConfig.Server.OFFLINE_LIMIT.getAsLong();
                         if (daysSince <= 7) {
                             account.applyInterest(interestRate, limits, forceInterest, notifyPlayers);
                             LightmansCurrency.LogDebug("Applying interest to " + account.getName().getString());
@@ -74,7 +74,7 @@ public class BankAPIImplMixin {
                         for (PlayerReference playerReference : team.getAllMembers()) {
                             UUID playerUUID = playerReference.id;
                             long lastLogin = PlayerTracker.get().getPlayer(playerUUID);
-                            long daysSince = lastLogin / VConfig.Server.OFFLINE_LIMIT.getAsLong();
+                            long daysSince = lastLogin / VeteranSmpConfig.Server.OFFLINE_LIMIT.getAsLong();
                             if (daysSince <= 7) {
                                 LightmansCurrency.LogDebug("Applying interest to " + account.getName().getString());
                                 account.applyInterest(interestRate, limits, forceInterest, notifyPlayers);

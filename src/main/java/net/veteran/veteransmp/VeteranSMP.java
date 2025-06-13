@@ -1,5 +1,7 @@
 package net.veteran.veteransmp;
 
+import com.simibubi.create.AllBlocks;
+import com.simibubi.create.api.behaviour.spouting.BlockSpoutingBehaviour;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.EventPriority;
@@ -8,6 +10,7 @@ import net.veteran.veteransmp.commands.CommandLoader;
 import net.veteran.veteransmp.datagen.CuriosDatagenProvider;
 import net.veteran.veteransmp.persistent.PlayerTracker;
 import net.veteran.veteransmp.datagen.DataGenerator;
+import net.veteran.veteransmp.compat.Create.FillingSpoutBehaviours;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -28,7 +31,7 @@ public class VeteranSMP
     public static final Logger Logger = LogUtils.getLogger();
 
     private static final CreateRegistrate REGISTRAR = CreateRegistrate.create(MOD_ID)
-            .defaultCreativeTab(ModCreativeTabs.BASE_CREATIVE_TAB.getKey());
+            .defaultCreativeTab(VeteranSmpCreativeTabs.BASE_CREATIVE_TAB.getKey());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
@@ -37,9 +40,9 @@ public class VeteranSMP
         REGISTRAR.registerEventListeners(modEventBus);
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
-        ModItems.register();
-        ModFluids.register();
-        ModCreativeTabs.register(modEventBus);
+        VeteranSmpItems.register();
+        VeteranSmpFluids.register();
+        VeteranSmpCreativeTabs.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
@@ -47,10 +50,20 @@ public class VeteranSMP
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.register(PlayerTracker.class);
 
+        modEventBus.addListener(VeteranSMP::init);
         modEventBus.addListener(EventPriority.LOW, DataGenerator::gatherData);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        modContainer.registerConfig(ModConfig.Type.SERVER, VConfig.Server.SPEC);
+        modContainer.registerConfig(ModConfig.Type.SERVER, VeteranSmpConfig.Server.SPEC);
+    }
+
+    public static void init(final FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            BlockSpoutingBehaviour.BY_BLOCK.register(
+                AllBlocks.DEPOT.get(),
+                    new FillingSpoutBehaviours()
+            );
+        });
     }
 
     public static ResourceLocation asResource(String path) {

@@ -12,7 +12,8 @@
     "CraftsAndAdditions.FuelingTankMixin",
     "CraftsAndAdditions.CopperJetpackMixin",
     "CraftsAndAdditions.AndesiteJetpackMixin",
-    "CraftsAndAdditions.BrassJetpackMixin"
+    "CraftsAndAdditions.BrassJetpackMixin",
+    "Create.FilterLogicMixin"
   ],
   "injectors": {
     "defaultRequire": 1

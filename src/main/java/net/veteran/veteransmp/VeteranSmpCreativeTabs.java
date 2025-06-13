@@ -9,7 +9,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.ApiStatus;
 
-public class ModCreativeTabs {
+public class VeteranSmpCreativeTabs {
     private static final DeferredRegister<CreativeModeTab> REGISTER =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, VeteranSMP.MOD_ID);
 
@@ -17,7 +17,7 @@ public class ModCreativeTabs {
             () -> CreativeModeTab.builder()
                     .title(Component.literal("VeteranSMP"))
                     .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
-                    .icon(ModFluids.MOLTEN_IRON.get().getBucket()::getDefaultInstance)
+                    .icon(VeteranSmpFluids.MOLTEN_IRON.get().getBucket()::getDefaultInstance)
                     .build()
     );
 

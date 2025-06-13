@@ -4,9 +4,8 @@ import com.simibubi.create.content.processing.sequenced.SequencedAssemblyItem;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.world.item.Item;
-import net.neoforged.bus.api.IEventBus;
 
-public class ModItems {
+public class VeteranSmpItems {
     private static final CreateRegistrate REGISTRAR = VeteranSMP.registrate();
 
     public static final ItemEntry<SequencedAssemblyItem>

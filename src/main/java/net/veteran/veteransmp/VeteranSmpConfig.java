@@ -4,21 +4,8 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 
 // An example config class. This is not required, but it's a good idea to have one to keep your config organized.
 // Demonstrates how to use Neo's config APIs
-public class VConfig
-{
-//    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
-//
-//    private static final ModConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
-//            .comment("Whether to log the dirt block on common setup")
-//            .define("logDirtBlock", true);
-//
-//    private static final ModConfigSpec.IntValue MAGIC_NUMBER = BUILDER
-//            .comment("A magic number")
-//            .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
-//
-//    public static final ModConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
-//            .comment("What you want the introduction message to be for the magic number")
-//            .define("magicNumberIntroduction", "The magic number is... ");
+public class VeteranSmpConfig {
+
 
     public static class Server {
         private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
@@ -27,6 +14,7 @@ public class VConfig
         public static final ModConfigSpec.BooleanValue OVERRIDE_LC;
         public static final ModConfigSpec.LongValue OFFLINE_LIMIT;
         public static final ModConfigSpec.BooleanValue TPA_COMMAND;
+        public static final ModConfigSpec.BooleanValue DAY_COUNT_COMMAND;
 
         static {
             BUILDER.push("Lightman's Currency");
@@ -53,8 +41,12 @@ public class VConfig
             BUILDER.push("Command Config");
 
             TPA_COMMAND = BUILDER
-                    .comment("Wether is the command /tpa enabled")
+                    .comment("Whether if the command /tpa is enabled")
                     .define("tpa_enabled", true);
+
+            DAY_COUNT_COMMAND = BUILDER
+                    .comment("Whether if the command /daycount is enabled")
+                    .define("day_count_enabled", true);
 
             SPEC = BUILDER.build();
         }

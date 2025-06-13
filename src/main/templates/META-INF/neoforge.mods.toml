@@ -101,7 +101,7 @@ side = "BOTH"
 modId = "create"
 mandatory = true
 versionRange = "[6.0.0,)"
-ordering = "AFTER"
+ordering = "BEFORE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]

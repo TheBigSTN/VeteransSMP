@@ -7,11 +7,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.material.FluidState;
-import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 
-public class ModFluids {
+public class VeteranSmpFluids {
     private static final CreateRegistrate REGISTRAR = VeteranSMP.registrate();
 
     public static final FluidEntry<BaseFlowingFluid.Flowing> MOLTEN_IRON;

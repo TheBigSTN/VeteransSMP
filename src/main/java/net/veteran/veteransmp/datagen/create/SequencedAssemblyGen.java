@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluids;
-import net.veteran.veteransmp.ModItems;
+import net.veteran.veteransmp.VeteranSmpItems;
 import net.veteran.veteransmp.VeteranSMP;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +24,7 @@ public class SequencedAssemblyGen extends CreateRecipeProvider {
     GeneratedRecipe
 
     SLIME_BALL = create("slime_ball", b->b.require(Items.SLIME_BALL)
-            .transitionTo(ModItems.UNFINISHED_SLIMEBALL.get())
+            .transitionTo(VeteranSmpItems.UNFINISHED_SLIMEBALL.get())
             .addOutput(new ItemStack(Items.SLIME_BALL, 8), 1)
             .loops(1)
             .addStep(FillingRecipe::new,
