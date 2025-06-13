@@ -46,7 +46,7 @@ public class FillingSpoutBehaviours implements BlockSpoutingBehaviour {
             return 0;
         }
 
-        double maxfill = 0;
+        double maxfill;
 
         if (stack.is(CuriosDatagenProvider.item("create_sa", "large_filling_tank"))) {
             if (!availableFluid.is(Fluids.WATER)) {
@@ -84,7 +84,7 @@ public class FillingSpoutBehaviours implements BlockSpoutingBehaviour {
 
 
 
-        double tagStock = ((CustomData) stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY))
+        double tagStock = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
                 .copyTag().getDouble("tagStock");
 
         if (tagStock + drain > maxfill) {

@@ -58,12 +58,10 @@ public class VeteranSMP
     }
 
     public static void init(final FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            BlockSpoutingBehaviour.BY_BLOCK.register(
-                AllBlocks.DEPOT.get(),
-                    new FillingSpoutBehaviours()
-            );
-        });
+        event.enqueueWork(() -> BlockSpoutingBehaviour.BY_BLOCK.register(
+            AllBlocks.DEPOT.get(),
+                new FillingSpoutBehaviours()
+        ));
     }
 
     public static ResourceLocation asResource(String path) {

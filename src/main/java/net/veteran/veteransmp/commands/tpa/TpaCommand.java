@@ -111,47 +111,48 @@ public class TpaCommand {
                 .withStyle(ChatFormatting.RED), true);
         tpaManager.acceptRequest(guest.getName().getString(), host.getName().getString());
 
-        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-        AtomicInteger counter = new AtomicInteger(6);
+        try (ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor()) {
+            AtomicInteger counter = new AtomicInteger(6);
 
 
-        scheduler.scheduleAtFixedRate(
-        () -> {
-                int timeLeft = counter.getAndDecrement();
+            scheduler.scheduleAtFixedRate(
+                    () -> {
+                        int timeLeft = counter.getAndDecrement();
 
-                if (timeLeft > 0) {
-                    guest.displayClientMessage(
-                            Component.literal("Teleporting to " + host.getName().getString() + " in " + timeLeft + " seconds...")
-                                    .withStyle(ChatFormatting.YELLOW),
-                            true
-                    );
+                        if (timeLeft > 0) {
+                            guest.displayClientMessage(
+                                    Component.literal("Teleporting to " + host.getName().getString() + " in " + timeLeft + " seconds...")
+                                            .withStyle(ChatFormatting.YELLOW),
+                                    true
+                            );
 
-                    host.displayClientMessage(
-                            Component.literal(guest.getName().getString() + " will arrive in " + timeLeft + " seconds...")
-                                    .withStyle(ChatFormatting.YELLOW),
-                            true
-                    );
-                } else {
-                    guest.teleportTo(
-                            host.serverLevel(),
-                            host.getX(),
-                            host.getY(),
-                            host.getZ(),
-                            host.getYRot(),
-                            host.getXRot()
-                    );
+                            host.displayClientMessage(
+                                    Component.literal(guest.getName().getString() + " will arrive in " + timeLeft + " seconds...")
+                                            .withStyle(ChatFormatting.YELLOW),
+                                    true
+                            );
+                        } else {
+                            guest.teleportTo(
+                                    host.serverLevel(),
+                                    host.getX(),
+                                    host.getY(),
+                                    host.getZ(),
+                                    host.getYRot(),
+                                    host.getXRot()
+                            );
 
-                    tpaManager.removeRequest(guest.getName().getString(), host.getName().getString());
+                            tpaManager.removeRequest(guest.getName().getString(), host.getName().getString());
 
-                    guest.displayClientMessage(Component.literal("You have been teleported!")
-                            .withStyle(ChatFormatting.GREEN), true);
+                            guest.displayClientMessage(Component.literal("You have been teleported!")
+                                    .withStyle(ChatFormatting.GREEN), true);
 
-                    host.displayClientMessage(Component.literal(guest.getName().getString() + " has been teleported to you!")
-                            .withStyle(ChatFormatting.GREEN),true);
+                            host.displayClientMessage(Component.literal(guest.getName().getString() + " has been teleported to you!")
+                                    .withStyle(ChatFormatting.GREEN), true);
 
-                    scheduler.shutdown();
-                }
-            },0,1, TimeUnit.SECONDS);
+                            scheduler.shutdown();
+                        }
+                    }, 0, 1, TimeUnit.SECONDS);
+        }
 
         return 1;
     }

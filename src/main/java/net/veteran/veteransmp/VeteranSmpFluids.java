@@ -33,30 +33,6 @@ public class VeteranSmpFluids {
 
     }
 
-    /**
-     * (From Create)
-     * Removing alpha from tint prevents optifine from forcibly applying biome
-     * colors to modded fluids (Makes translucent fluids disappear)
-     */
-    private static class NoColorFluidAttributes extends AllFluids.TintedFluidType {
-
-        public NoColorFluidAttributes(Properties properties, ResourceLocation stillTexture,
-                                      ResourceLocation flowingTexture) {
-            super(properties, stillTexture, flowingTexture);
-        }
-
-        @Override
-        protected int getTintColor(FluidStack stack) {
-            return NO_TINT;
-        }
-
-        @Override
-        public int getTintColor(FluidState state, BlockAndTintGetter world, BlockPos pos) {
-            return 0x00ffffff;
-        }
-
-    }
-
     public static void register() {
         //Load the class
     }

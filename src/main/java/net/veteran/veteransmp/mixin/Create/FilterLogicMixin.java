@@ -22,12 +22,12 @@ public class FilterLogicMixin {
     private static void onTest(ItemStack filter, ItemStack stack, boolean matchNBT, CallbackInfoReturnable<Boolean> cir) {
         if ( veteransSMP$isOurTank(filter) && veteransSMP$isOurTank(stack)) {
             if (matchNBT && cir.getReturnValue()) {
-                double tagFilter = ((CustomData) filter.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY))
+                double tagFilter = filter.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
                         .copyTag().getDouble("tagStock");
-                double tagStack = ((CustomData) stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY))
+                double tagStack = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
                         .copyTag().getDouble("tagStock");
                 cir.setReturnValue(tagStack == tagFilter);
-                
+
             }
         }
     }
