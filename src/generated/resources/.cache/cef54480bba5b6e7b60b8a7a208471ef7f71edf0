@@ -1,2 +1,5 @@
-// 1.21.1	2025-06-05T09:58:00.4938289	Veteran's SMP Mixing Recipes
+// 1.21.1	2025-06-14T14:05:10.6980822	Veteran's SMP Mixing Recipes
+a10c60d22d225395b55f3f0ea90e3c5864928a77 data/veteransmp/recipe/mixing/lapis_lazuli.json
 b92b61a7ef7721fd98bd2f67390511e6d08242e9 data/veteransmp/recipe/mixing/molten_iron.json
+ee40a04ca151e5e104ff298d440b3883bd3e8fbb data/veteransmp/recipe/mixing/netherack.json
+ea54eae97b62fdf784f6d65747eeb2079a132d0c data/veteransmp/recipe/mixing/rooted_dirt.json

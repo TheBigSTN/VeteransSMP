@@ -1,0 +1,13 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "minecraft:feather"
+    }
+  ],
+  "results": [
+    {
+      "id": "minecraft:phantom_membrane"
+    }
+  ]
+}
